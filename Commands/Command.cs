@@ -33,22 +33,27 @@ namespace NetworkSocket.Commands
         /// </summary>
         /// <param name="args"></param>
         /// <exception cref="InvalidCommandException">Throw when there are wrong flag in command</exception>
+        /// <exception cref="HelpException">Throw when help command is called</exception>
         public Command(string[] args, Action<int>? command = null)
         {
-            if (args.Length > 3)
+            if (args.Length == 1 && (args[0] == "-h" || args[0] == "--help"))
             {
-                throw new InvalidCommandException();
+                throw new HelpException();
             }
             if (args.Length == 0)
             {
                 _port = _defaultPort;
             }
-            else
+            else if (args[0] == "-p" || args[0] == "--port")
             {
                 if (!int.TryParse(args[1], out _port))
                 {
                     throw new InvalidCommandException();
                 }
+            }
+            else
+            {
+                throw new InvalidCommandException();
             }
             if (command != null) 
             { 
