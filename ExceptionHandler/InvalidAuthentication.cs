@@ -42,7 +42,7 @@ namespace NetworkSocket.ExceptionHandler
                 catch (FileNotFoundException e)
                 {
                     // file not found
-                    //ExceptionHandler.handle(e);
+                    ExceptionResponser.Response(e);
                     result += fileNotFound;
                     result += endLine;
                 }
