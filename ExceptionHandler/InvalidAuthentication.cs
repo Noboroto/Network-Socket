@@ -46,7 +46,7 @@ namespace NetworkSocket.ExceptionHandler
                     result += fileNotFound;
                     result += endLine;
                 }
-            }
+            } 
             if (subs[0] == "POST")
             {
                 string uname = subs[1], psw = subs[2];
