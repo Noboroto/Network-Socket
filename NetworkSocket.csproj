@@ -8,7 +8,7 @@
     <StartupObject>NetworkSocket.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="http\*.*">
+    <None Include="http\**\*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>  </ItemGroup>
 </Project>
