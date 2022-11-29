@@ -66,8 +66,8 @@ namespace NetworkSocket.ProtocalHandler
                 _headerBuilder.Append("Content-Length: ");
                 _headerBuilder.Append(info.Length);
                 _headerBuilder.Append("\r\n");
-                _headerBuilder.Append("\r\n");
             }
+            _headerBuilder.Append("\r\n");
         }
         public Response(string? filePath = "", int code = 200, string message = "OK", bool isKeepAlive = true)
         {
