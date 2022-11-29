@@ -1,12 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-
-// Reference: https://docs.codingtipi.com/docs/toolkit/http-request-handler/ctors
-
+using System.IO;
 
 namespace NetworkSocket.ProtocolHandler
 {
@@ -15,97 +14,55 @@ namespace NetworkSocket.ProtocolHandler
         public const string Get = "GET";
         public const string Post = "POST";
     }
-    public class HttpResponse
-    {
-        public HttpStatusCode StatusCode { get; set; }
-        public string Body { get; set; } = default!;
-    }
+
     public class RequestHandler
     {
-        #region Attribute
-        private readonly HttpClient m_client;
-        private HttpResponseMessage? m_response;
-        private StringContent? m_information;
-
-        #endregion
-
-        #region Constructor 
-        public RequestHandler()
+        public bool method_get = true;
+        public string m_filename = " ";
+        public string m_endpoint = " ";
+        public bool keep_alive = true;
+        public RequestHandler(byte[] bin_sequence)
         {
-            m_client = new HttpClient();
+            byte[] blob = new byte[bin_sequence.Length / 2];
+            string res = Encoding.Unicode.GetString(blob);
+            getInfo(res);
+
         }
 
-        public RequestHandler(string Token) : this()
+        public void getInfo(string arg)
         {
-            m_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
-        }
+            var sub = arg.Split("\r\n");
 
-        // This constructor initializes an HttpClient class with aditional headers provided as Key Value from a dictionary.
-        public RequestHandler(Dictionary<string, string> headers) : this()
-        {
-            foreach (var header in headers)
+            //get method
+            if (sub[0].Contains("POST"))
             {
-                m_client.DefaultRequestHeaders.Add(header.Key, header.Value);
+                method_get = false;
             }
-        }
 
-        // Combine above
-        public RequestHandler(string bearerToken, Dictionary<string, string> headers) : this()
-        {
-            m_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
+            // get filename
+            var subsub = sub[0].Split(" ");
+            m_filename = "http/" + subsub[1];
 
-            foreach (var header in headers)
+            if (m_filename == "/")
             {
-                m_client.DefaultRequestHeaders.Add(header.Key, header.Value);
+                m_filename = "/http/index.html";
             }
-        }
 
-        #endregion
-        
-        #region Method
-        public async Task<HttpResponse> ExecuteAsync(string method, string endpoint, string? body = null)
-        {
-            m_response = new HttpResponseMessage(); //Initialize Response object);
+            // add directory
+            m_filename = Directory.GetCurrentDirectory() + m_filename;
 
-            if (body != null) //Check if the execute request need a base model for the body parameter
+            //Define connection
+            for (int i = 0; i < sub.Length; i++)
             {
-                fixBody(body);
-            }
-            if (method == HttpMethods.Post)
-            {
-                m_response = await m_client.PostAsync(endpoint, m_information);
-            }
-            else if (method == HttpMethods.Get)
-            {
-                m_response = await m_client.GetAsync(endpoint);
-            }
-            return new HttpResponse
-            {
-                StatusCode = m_response.StatusCode,
-                Body = await m_response.Content.ReadAsStringAsync()
-            };
-        }
-
-        public void Dispose()
-        {
-            m_client.Dispose();
-            if (m_response != null)
-            {
-                m_response.Dispose();
-            }
-            if (m_information != null)
-            {
-                m_information.Dispose();
+                if (sub[i].Contains("Connection"))
+                {
+                    if (sub[i].Contains("close"))
+                    {
+                        keep_alive = false;
+                        break;
+                    }
+                }
             }
         }
-
-        #endregion
-
-        #region Body
-        private void fixBody(string jsonObject)
-        {
-            m_information = new StringContent(jsonObject, Encoding.UTF8, "application/json");
-        }
-        #endregion
     }
 }
