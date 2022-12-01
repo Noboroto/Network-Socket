@@ -9,6 +9,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="http\**\*.*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>  </ItemGroup>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>  
+  </ItemGroup>
 </Project>
