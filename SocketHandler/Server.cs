@@ -106,7 +106,7 @@ public class Server
                             break;
                     }
                     res.SendAsync(client);
-                    Console.WriteLine($"{pos} - {counter}\r\n{information} {res.DataString} \r\n");
+                    Console.WriteLine($"{pos} - {counter}\r\n{information}{res.DataString} \r\n");
                 }
                 else
                 {
