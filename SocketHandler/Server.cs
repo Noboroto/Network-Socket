@@ -41,9 +41,12 @@ public class Server
             if (_serverListener.Pending())
             {
                 client = _serverListener.AcceptTcpClient();
+
                 var pos = _browserClients.Count;
                 if (!client.Connected) continue;
                 _browserClients.Add(new ClientInfo(client, pos));
+
+                //Console report
                 Console.WriteLine(pos + 1);
                 _strBuilder.Clear();
                 _strBuilder.AppendLine((pos + 1).ToString());
@@ -52,6 +55,7 @@ public class Server
                     _strBuilder.Append(c.isConnected + " ");
                 }
                 Console.WriteLine(_strBuilder.ToString());
+
                 ListenFromClient(pos);
             }
         }
