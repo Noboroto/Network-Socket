@@ -14,7 +14,10 @@ namespace NetworkSocket.SocketHandler
         public ClientInfo(TcpClient client, int position)
         {
             _tcpClient = client;
-            _position = position; 
+            _position = position;
+            IPEndPoint? point = _tcpClient.Client.RemoteEndPoint as IPEndPoint;
+            if (point != null) Address = point.Address.ToString() + ":" + point.Port;
+            else Address = "";
         }
         public NetworkStream GetStream()
         {
@@ -26,14 +29,6 @@ namespace NetworkSocket.SocketHandler
             _tcpClient.Close();
         }
 
-        public string Address 
-        {
-            get
-            {
-                IPEndPoint? point = _tcpClient.Client.RemoteEndPoint as IPEndPoint;
-                if (point != null) return point.Address.ToString() + ":"+ point.Port;
-                return "";
-            }
-        }
+        public string Address { get; private set; }
     }
 }

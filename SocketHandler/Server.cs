@@ -19,6 +19,8 @@ public class Server
     private static readonly Task _initTask = new Task(() => {});
     private static Encoding _encoder = Encoding.UTF8;
     private static StringBuilder _strBuilder = new StringBuilder();
+
+    public static List<ClientInfo> BrowserClients => _browserClients;
     
     public static void StartListen(int port, string srcPath = "/http/")
     {
@@ -50,14 +52,14 @@ public class Server
                 _browserClients.Add(new ClientInfo(client, pos));
 
                 //Console report
-                Console.WriteLine(pos + 1);
-                _strBuilder.Clear();
-                _strBuilder.AppendLine((pos + 1).ToString());
-                foreach (var c in _browserClients)
-                {
-                    _strBuilder.Append(c.isConnected + " ");
-                }
-                Console.WriteLine(_strBuilder.ToString());
+                //Console.WriteLine(pos + 1);
+                //_strBuilder.Clear();
+                //_strBuilder.AppendLine((pos + 1).ToString());
+                //foreach (var c in _browserClients)
+                //{
+                //    _strBuilder.Append(c.isConnected + " ");
+                //}
+                //Console.WriteLine(_strBuilder.ToString());
 
                 ListenFromClient(pos);
             }
@@ -74,15 +76,13 @@ public class Server
             var client = _browserClients[pos];
             var Reader = client.GetStream();
 
-            Console.WriteLine($"Start listening client at: {pos}");
+            Console.WriteLine($"Start listening client at {pos} - ip {client.Address}");
 
             while (canContinue)
             {
                 try
                 {
-                    Console.WriteLine($"Prepare listen {pos}");
                     information = NetworkToString(Reader);
-                    Console.WriteLine($"End listen {pos}");
                 }
                 catch (Exception e)
                 {
@@ -120,7 +120,7 @@ public class Server
                             break;
                     }
                     res?.SendAsync(client);
-                    Console.WriteLine($"{pos} - {counter}\r\n{information}{res?.DataString} \r\n");
+                    Console.WriteLine($"Client {pos} at {client.Address} - request {counter} time" + ((counter > 1) ? "s" : "") + $"\r\n{information.Split("\r\n")[0]}\r\n");
                 }
                 else
                 {
