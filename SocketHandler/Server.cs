@@ -86,8 +86,15 @@ public class Server
                 {
                     counter++;
                     Request req = new Request(information);
-                    Response res = new Response(req);
-
+                    Response? res = null;
+                    try
+                    {
+                        res = new Response(req);
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        res = new Response("404.html", 404, "Not Found");
+                    }
                     switch (req.Type)
                     {
                         case RequestType.POST:
@@ -105,8 +112,8 @@ public class Server
                         default:
                             break;
                     }
-                    res.SendAsync(client);
-                    Console.WriteLine($"{pos} - {counter}\r\n{information}{res.DataString} \r\n");
+                    res?.SendAsync(client);
+                    Console.WriteLine($"{pos} - {counter}\r\n{information}{res?.DataString} \r\n");
                 }
                 else
                 {

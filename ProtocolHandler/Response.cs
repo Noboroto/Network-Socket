@@ -45,11 +45,16 @@ namespace NetworkSocket.ProtocalHandler
             }
         }
 
+        /// <exception cref="FileNotFoundException"/>
         public Response (Request req):this(req.AbsoluteFilePath, 200, "OK", req.KeepAlive)
         {
 
         }
 
+        /// <summary>
+        /// Build header of response
+        /// </summary>
+        /// <exception cref="FileNotFoundException"/>
         private void BuildHeader()
         {
             _headerBuilder.Clear();
@@ -69,6 +74,8 @@ namespace NetworkSocket.ProtocalHandler
             }
             _headerBuilder.Append("\r\n");
         }
+
+        /// <exception cref="FileNotFoundException"/>
         public Response(string? filePath = "", int code = 200, string message = "OK", bool isKeepAlive = true)
         {
             dataFilePath = filePath;
@@ -77,18 +84,7 @@ namespace NetworkSocket.ProtocalHandler
             _statusMessage = message;
             _keepAlive = isKeepAlive;
 
-            try
-            {
-                BuildHeader();
-            }
-            catch (FileNotFoundException)
-            {
-                dataFilePath = "404.html";
-                _dataType = getDataTypeByExtension(dataFilePath);
-                _statusCode = 404;
-                _statusMessage = "Not Found";
-                BuildHeader();
-            }
+            BuildHeader();
         }
 
         private static RequestDataType getDataTypeByExtension(string? path)
