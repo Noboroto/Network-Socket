@@ -13,7 +13,7 @@ namespace NetworkSocket
             try
             {
                 Console.WriteLine(args.Length);
-                Command c = new Command(args, Server.StartListen);
+                StartServerCommand c = new StartServerCommand(args, Server.StartListen);
                 Console.WriteLine(c);
                 Console.WriteLine("Try go to: http://127.0.0.1:" + c.Port);
                 c.Run();

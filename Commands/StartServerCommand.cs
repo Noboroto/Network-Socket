@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace NetworkSocket.Commands
 {
-    public class Command
+    public class StartServerCommand
     {
         private const int _defaultPort = 8080;
         private readonly Action<int> _defaultCommand = new Action<int>((port) => { });
@@ -15,7 +15,7 @@ namespace NetworkSocket.Commands
 
         public int Port => _port;
 
-        public Command(int port = _defaultPort, Action<int>? command = null)
+        public StartServerCommand(int port = _defaultPort, Action<int>? command = null)
         {
             _port = port;
             if (command != null)
@@ -34,7 +34,7 @@ namespace NetworkSocket.Commands
         /// <param name="args"></param>
         /// <exception cref="InvalidCommandException">Throw when there are wrong flag in command</exception>
         /// <exception cref="HelpException">Throw when help command is called</exception>
-        public Command(string[] args, Action<int>? command = null)
+        public StartServerCommand(string[] args, Action<int>? command = null)
         {
             if (args.Length == 1 && (args[0] == "-h" || args[0] == "--help"))
             {
