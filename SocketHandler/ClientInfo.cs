@@ -26,12 +26,12 @@ namespace NetworkSocket.SocketHandler
             _tcpClient.Close();
         }
 
-        public string IP 
+        public string Address 
         {
             get
             {
                 IPEndPoint? point = _tcpClient.Client.RemoteEndPoint as IPEndPoint;
-                if (point != null) return point.Address.ToString();
+                if (point != null) return point.Address.ToString() + ":"+ point.Port;
                 return "";
             }
         }
