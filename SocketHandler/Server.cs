@@ -117,8 +117,8 @@ public class Server
                 }
                 else
                 {
+                    Console.WriteLine($"Client {pos} at {client.IP} has disconnected...");
                     client.Close();
-                    Console.WriteLine($"Client {pos} disconnected...");
                     canContinue= false;
                 }
             }

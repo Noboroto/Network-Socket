@@ -1,4 +1,5 @@
 using System.Net.Sockets;
+using System.Net;
 
 namespace NetworkSocket.SocketHandler
 {
@@ -23,6 +24,16 @@ namespace NetworkSocket.SocketHandler
         public void Close()
         {
             _tcpClient.Close();
+        }
+
+        public string IP 
+        {
+            get
+            {
+                IPEndPoint? point = _tcpClient.Client.RemoteEndPoint as IPEndPoint;
+                if (point != null) return point.Address.ToString();
+                return "";
+            }
         }
     }
 }
