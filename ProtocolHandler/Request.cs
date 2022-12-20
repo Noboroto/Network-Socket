@@ -25,12 +25,12 @@ namespace NetworkSocket.ProtocalHandler
 
         public Request(string raw)
         {
-            var sentence = raw.Split("\r\n");
-            var requestHeader = sentence[0].Split(" ");
+            var sentences = raw.Split("\r\n");
+            var requestHeader = sentences[0].Split(" ");
             _filePath = requestHeader[1];
             if (_filePath == "/") _filePath = "index.html";
             _type = getTypeFormString(requestHeader[0]);
-            foreach (var item in sentence)
+            foreach (var item in sentences)
             {
                 var part = item.Split(':');
                 if (part[0] == "Connection")
@@ -40,7 +40,7 @@ namespace NetworkSocket.ProtocalHandler
                 }
             }
 
-            _data = sentence.Last();
+            _data = sentences.Last();
         }
 
         private RequestType getTypeFormString(string raw)
