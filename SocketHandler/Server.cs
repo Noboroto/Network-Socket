@@ -16,12 +16,12 @@ public class Server
 
     private static List<ClientInfo> _browserClients = new List<ClientInfo>();
     private static TcpListener? _serverListener;
-    private static readonly Task _initTask = new Task(() => {});
+    private static readonly Task _initTask = new Task(() => { });
     private static Encoding _encoder = Encoding.UTF8;
     private static StringBuilder _strBuilder = new StringBuilder();
 
     public static List<ClientInfo> BrowserClients => _browserClients;
-    
+
     public static void StartListen(int port, string srcPath = "/http/")
     {
         if (_serverListener == null)
@@ -84,6 +84,19 @@ public class Server
                 {
                     information = NetworkToString(Reader);
                 }
+                catch (IOException e)
+                {
+                    if (!client.cancellation.IsCancellationRequested)
+                    {
+                        ExceptionResponser.Response(e);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Client {pos} at {_browserClients[pos].Address} has been stopped...");
+                    }
+                    canContinue = false;
+                    break;
+                }
                 catch (Exception e)
                 {
                     ExceptionResponser.Response(e);
@@ -126,12 +139,13 @@ public class Server
                 {
                     Console.WriteLine($"Client {pos} at {client.Address} has disconnected...");
                     client.Close();
-                    canContinue= false;
+                    canContinue = false;
                 }
             }
         });
+
     }
-    private static string? NetworkToString (NetworkStream stream)
+    private static string? NetworkToString(NetworkStream stream)
     {
         MemoryStream memoryStream = new MemoryStream();
         var buffer = new byte[BUFFER_SIZE];
