@@ -25,14 +25,25 @@ namespace NetworkSocket.ProtocalHandler
     public class Response
     {
         private StringBuilder _headerBuilder = new StringBuilder();
+        private static string _src = "./http/";
         private RequestDataType _dataType;
         private int _statusCode;
         private string _statusMessage;
         private string? _dataFilePath;
         private bool _keepAlive;
         private static Encoding _encoder = Encoding.UTF8;
+        
+        public static string SrcPath 
+        { 
+            get => _src;  
+            set 
+            {  
+                _src = value;
+                if (_src.Last() != '/') _src += '/';
+            } 
+        }
 
-        public string? dataFilePath {get => _dataFilePath; private set => _dataFilePath = Directory.GetCurrentDirectory() + "/http/" + value;}
+        public string? dataFilePath {get => _dataFilePath; private set => _dataFilePath = SrcPath + value;}
 
         public string DataString
         {

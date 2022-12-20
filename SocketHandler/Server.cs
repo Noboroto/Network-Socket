@@ -20,7 +20,7 @@ public class Server
     private static Encoding _encoder = Encoding.UTF8;
     private static StringBuilder _strBuilder = new StringBuilder();
     
-    public static void StartListen(int port)
+    public static void StartListen(int port, string srcPath = "/http/")
     {
         if (_serverListener == null)
         {
@@ -33,8 +33,11 @@ public class Server
                 return;
             }
         }
+
         _serverListener = new TcpListener(System.Net.IPAddress.Any, port);
         _serverListener.Start();
+        Response.SrcPath = srcPath;
+
         TcpClient? client = new TcpClient();
         while (true)
         {
