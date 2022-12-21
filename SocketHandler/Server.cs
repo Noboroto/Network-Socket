@@ -30,8 +30,9 @@ public class Server
             {
                 _initTask.Start();
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException e)
             {
+                ExceptionResponser.Response(e);
                 return;
             }
         }
