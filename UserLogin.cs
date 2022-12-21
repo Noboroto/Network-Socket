@@ -12,7 +12,7 @@ namespace NetworkSocket
     {
         public static bool isValidLoginFromPOSTForm (String? data)
         {
-            if (string.IsNullOrEmpty(data)) return true;
+            if (string.IsNullOrEmpty(data)) return false;
             Dictionary <string, string> pairs = new Dictionary <string, string> ();
             var headers = data.Split("&");
             foreach(var header in headers)
