@@ -1,4 +1,5 @@
 ﻿using NetworkSocket.ProtocalHandler;
+using NetworkSocket.User;
 
 using System;
 using System.Collections.Generic;
@@ -32,14 +33,14 @@ namespace NetworkSocket.ProtocolHandler
             {404, "File Not Found" }
         };
 
-        public static Response? Handle(Request req, string SrcPath)
+        public static Response? Handle(Request req, string SrcPath, UserDataContext? context = null)
         {
             switch (req.Type)
             {
                 case RequestType.GET:
                     return HandlerGET(req, SrcPath);
                 case RequestType.POST:
-                    return HandlerPOST(req, SrcPath);
+                    return HandlerPOST(req, SrcPath, context);
                 default
                     : return null;
             }
@@ -93,9 +94,27 @@ namespace NetworkSocket.ProtocolHandler
             return res;
         }
 
-        private static Response HandlerPOST (Request req, string SrcPath)
+        private static Response HandlerPOST (Request req, string SrcPath, UserDataContext? context)
         {
-            if (!UserLogin.isValidLoginFromPOSTForm(req.TextData))
+            bool isValid = false;
+            if (context == null)
+                return GetError(401, SrcPath);
+
+            UserInfo? login = UserInfo.parse(req.TextData);
+
+            if (login == null)
+                return GetError(401, SrcPath);
+
+            foreach (var user in context.UserInfos)
+            {
+                if (user.isValid(login))
+                {
+                    isValid = true;
+                    break;
+                }
+            }
+
+            if (!isValid)
             {
                 return GetError(401, SrcPath);
             }

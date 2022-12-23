@@ -1,6 +1,7 @@
 ﻿using NetworkSocket.ExceptionHandler;
 using NetworkSocket.ProtocalHandler;
 using NetworkSocket.ProtocolHandler;
+using NetworkSocket.User;
 
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace NetworkSocket.SocketHandler
         private CancellationTokenSource _serverCancellation;
         private List<HTTPClient> _browserClients = new List<HTTPClient>();
         private TcpListener _serverListener;
+        private static UserDataContext context = new UserDataContext();
 
         public List<HTTPClient> BrowserClients => new List<HTTPClient>(_browserClients);
         public int Port { get; private set; }
@@ -68,6 +70,11 @@ namespace NetworkSocket.SocketHandler
             }
         }
 
+        public void RegisterUser(UserInfo info) 
+        { 
+            context.AddUser(info);
+        }
+
         private void ListenFromClientAsync(int pos)
         {
             try
@@ -93,7 +100,7 @@ namespace NetworkSocket.SocketHandler
                         }
                         if (req != null)
                         {
-                            Response? res = RequestHandler.Handle(req, SrcPath);
+                            Response? res = RequestHandler.Handle(req, SrcPath, context);
                             if (res == null)
                             {
                                 Console.WriteLine($"Client {pos} at {client.Address} - request {client.ResquestCounter} time" + ((client.ResquestCounter > 1) ? "s" : "") + $"\r\n{req}\nServer not support this Request!");

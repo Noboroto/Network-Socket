@@ -6,6 +6,7 @@ using NetworkSocket.Commands;
 using NetworkSocket.ExceptionHandler;
 using NetworkSocket.ProtocalHandler;
 using NetworkSocket.SocketHandler;
+using NetworkSocket.User;
 
 namespace NetworkSocket
 {
@@ -20,6 +21,7 @@ namespace NetworkSocket
             "Type \"active\" to get list of active clients",
             "Type \"path\" to change the source code folder",
             "Type \"port\" to change restart server and change to another port",
+            "Type \"register\" to create new account",
             "Type \"stop client\" to stop a client\n",
         };
 
@@ -57,6 +59,20 @@ namespace NetworkSocket
                             {
                                 Console.WriteLine(line);
                             }
+                            break;
+                        case "register":
+                            Console.Write("Username: ");
+                            var username = Console.ReadLine();
+                            Console.Write("Password: ");
+                            var password = Console.ReadLine();
+
+                            if (string.IsNullOrEmpty(password) || string.IsNullOrEmpty(username))
+                                break;
+                            
+                            UserInfo info = new UserInfo(username, password);
+                            s.RegisterUser(info);
+
+                            Console.WriteLine("Add successful");
                             break;
                         case "restart":
                             s.Close();
