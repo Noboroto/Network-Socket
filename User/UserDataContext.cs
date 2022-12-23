@@ -28,7 +28,7 @@ namespace NetworkSocket.User
         public void AddUser (UserInfo user)
         {
             _userInfos.Add(user);
-            File.AppendAllText(_filePath, user.ToString(), Encoding.UTF8);
+            File.AppendAllText(_filePath, user.ToString() + "\n", Encoding.UTF8);
         }
     }
 }

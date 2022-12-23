@@ -24,7 +24,7 @@ namespace NetworkSocket.User
 
         public override string ToString()
         {
-            return $"uname={_username}$psw={_password}";
+            return $"uname={_username}&psw={_password}";
         }
 
         public static UserInfo? parse(string data)
