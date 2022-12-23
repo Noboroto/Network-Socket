@@ -52,16 +52,6 @@ public class Server
                 if (!client.Connected) continue;
                 _browserClients.Add(new ClientInfo(client, pos));
 
-                //Console report
-                //Console.WriteLine(pos + 1);
-                //_strBuilder.Clear();
-                //_strBuilder.AppendLine((pos + 1).ToString());
-                //foreach (var c in _browserClients)
-                //{
-                //    _strBuilder.Append(c.isConnected + " ");
-                //}
-                //Console.WriteLine(_strBuilder.ToString());
-
                 ListenFromClient(pos);
             }
         }
@@ -71,7 +61,6 @@ public class Server
     {
         Task.Run(() =>
         {
-            int counter = 0;
             string? information = null;
             bool canContinue = true;
             var client = _browserClients[pos];
@@ -105,7 +94,6 @@ public class Server
                 }
                 if (!string.IsNullOrEmpty(information))
                 {
-                    counter++;
                     Request req = new Request(information);
                     Response? res = null;
                     try
@@ -134,7 +122,9 @@ public class Server
                             break;
                     }
                     res?.SendAsync(client);
-                    Console.WriteLine($"Client {pos} at {client.Address} - request {counter} time" + ((counter > 1) ? "s" : "") + $"\r\n{information.Split("\r\n")[0]}\r\n");
+
+                    client.ResquestCounter++;
+                    Console.WriteLine($"Client {pos} at {client.Address} - request {client.ResquestCounter} time" + ((client.ResquestCounter > 1) ? "s" : "") + $"\r\n{req}\n{res}\n");
                 }
                 else
                 {

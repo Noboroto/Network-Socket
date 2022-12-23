@@ -16,6 +16,7 @@ namespace NetworkSocket.ProtocalHandler
         private bool _KeepAlive;
         private RequestType _type;
         private string? _data;
+        private string _rawData;
 
         public string AbsoluteFilePath => _filePath;
         public bool KeepAlive => _KeepAlive;
@@ -23,8 +24,11 @@ namespace NetworkSocket.ProtocalHandler
 
         public string? Data => _data;
 
+        public string StartLine => _rawData.Split("\r\n")[0];
+
         public Request(string raw)
         {
+            _rawData = raw;
             var sentences = raw.Split("\r\n");
             var requestHeader = sentences[0].Split(" ");
             _filePath = requestHeader[1];
@@ -58,6 +62,10 @@ namespace NetworkSocket.ProtocalHandler
                 default:
                     return RequestType.GET;
             }
+        }
+        public override string ToString()
+        {
+            return StartLine + "\r\n" + Data;
         }
     }
 }

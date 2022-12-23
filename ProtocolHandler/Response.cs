@@ -33,6 +33,8 @@ namespace NetworkSocket.ProtocalHandler
         private bool _keepAlive;
         private static Encoding _encoder = Encoding.UTF8;
         
+        public string StartLine => _headerBuilder.ToString().Split("\r\n")[0];
+
         public static string SrcPath 
         { 
             get => _src;  
@@ -177,6 +179,10 @@ namespace NetworkSocket.ProtocalHandler
         public void SendAsync (ClientInfo client)
         {
             Task.Run(() => Send(client));
+        }
+        public override string ToString()
+        {
+            return StartLine;
         }
     }
 }

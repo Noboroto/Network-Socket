@@ -43,8 +43,8 @@ namespace NetworkSocket
                             for (int i = 0; i < list?.Count; i++)
                             {
                                 if (val != "ls" && !list[i].isConnected) continue;
-                                Console.Write($"Order {list[i].Position} - {list[i].Address} - ");
-                                Console.WriteLine(((!list[i].isConnected) ? "is closed" : "is connecting."));
+                                Console.Write($"Order {list[i].Position} - {list[i].Address} - requested {list[i].ResquestCounter} time" + ((list[i].ResquestCounter > 1) ? "s" : ""));
+                                Console.WriteLine(((!list[i].isConnected) ? "is closed" : ""));
                             }
                             Console.WriteLine();
                             if (val == "stop client")

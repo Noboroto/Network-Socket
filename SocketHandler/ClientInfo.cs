@@ -10,6 +10,7 @@ namespace NetworkSocket.SocketHandler
         private int _position;
         private CancellationTokenSource _cancelSource;
         
+        public int ResquestCounter { get; set; }
         public int Position { get => _position;}
         public bool isConnected => _tcpClient.Connected;
         public CancellationToken cancellation => _cancelSource.Token;
@@ -19,6 +20,7 @@ namespace NetworkSocket.SocketHandler
             _cancelSource= new CancellationTokenSource();
             _tcpClient = client;
             _position = position;
+            ResquestCounter= 0;
             IPEndPoint? point = _tcpClient.Client.RemoteEndPoint as IPEndPoint;
             if (point != null) Address = point.Address.ToString() + ":" + point.Port;
             else Address = "";
