@@ -9,14 +9,18 @@ namespace NetworkSocket.Commands
     public class StartServerCommand
     {
         private const int _defaultPort = 8080;
-        private readonly Action<int, string> _defaultCommand = new Action<int,string>((port, srcPath) => { });
 
-        private Action<int, string> _command;
         private int _port;
         private string _src;
 
         public int Port => _port;
         public string Src => _src;
+
+        public StartServerCommand(int port, string src)
+        {
+            _port = port;
+            _src = src;
+        }
 
         /// <summary>
         /// Construct Command object from console args
@@ -60,15 +64,6 @@ namespace NetworkSocket.Commands
                     }
                 }
             }
-
-            if (command != null) 
-            { 
-                _command = command; 
-            }
-            else 
-            { 
-                _command = _defaultCommand; 
-            }
         }
 
         public override string ToString()
@@ -81,16 +76,6 @@ namespace NetworkSocket.Commands
             stringBuilder.Append(" -f ");
             stringBuilder.Append(_src);
             return stringBuilder.ToString();
-        }
-
-        public void Run()
-        {
-            _command(_port,_src);
-        }
-
-        public Task RunAsync()
-        {
-            return Task.Run(() => { _command(_port,_src); }); 
         }
     }
 }

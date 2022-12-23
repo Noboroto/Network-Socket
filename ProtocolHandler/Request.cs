@@ -1,4 +1,5 @@
-using System.Diagnostics;
+using NetworkSocket.ProtocolHandler;
+
 using System.Linq;
 
 namespace NetworkSocket.ProtocalHandler
@@ -10,41 +11,30 @@ namespace NetworkSocket.ProtocalHandler
         PUT,
         DELETE
     }
-    public class Request
+    public class Request : HttpProtocol
     {
-        private string _filePath;
-        private bool _KeepAlive;
+        private string _target;
         private RequestType _type;
-        private string? _data;
-        private string _rawData;
 
-        public string AbsoluteFilePath => _filePath;
-        public bool KeepAlive => _KeepAlive;
+        public string Target => _target;
         public RequestType Type => _type;
 
-        public string? Data => _data;
-
-        public string StartLine => _rawData.Split("\r\n")[0];
-
-        public Request(string raw)
+        public Request(byte[] raw) : this (s_encoder.GetString(raw))
         {
-            _rawData = raw;
-            var sentences = raw.Split("\r\n");
-            var requestHeader = sentences[0].Split(" ");
-            _filePath = requestHeader[1];
-            if (_filePath == "/") _filePath = "index.html";
-            _type = getTypeFormString(requestHeader[0]);
-            foreach (var item in sentences)
-            {
-                var part = item.Split(':');
-                if (part[0] == "Connection")
-                {
-                    if (part[1] == "close") _KeepAlive = false;
-                    else _KeepAlive = true;
-                }
-            }
 
-            _data = sentences.Last();
+        }
+
+        public Request(string raw) : base (raw)
+        {
+            var requestHeader = StartLine.Split(" ");
+            _target = "";
+
+            if (string.IsNullOrEmpty(StartLine)) 
+                return;
+
+            _target = requestHeader[1].Split("?").First();
+            if (_target == "/") _target = "index.html";
+            _type = getTypeFormString(requestHeader[0]);
         }
 
         private RequestType getTypeFormString(string raw)
@@ -65,7 +55,12 @@ namespace NetworkSocket.ProtocalHandler
         }
         public override string ToString()
         {
-            return StartLine + "\r\n" + Data;
+            string result = StartLine;
+            if (Data != null && Data.Length > 0)
+            {
+                result += "\n" + TextData;
+            }
+            return result;
         }
     }
 }
