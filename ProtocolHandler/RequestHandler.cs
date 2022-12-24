@@ -101,6 +101,7 @@ namespace NetworkSocket.ProtocolHandler
                 return GetError(401, SrcPath);
 
             UserInfo? login = UserInfo.parse(req.TextData);
+            s_blockPath.Add(req.Target);
 
             if (login == null)
                 return GetError(401, SrcPath);
@@ -118,8 +119,6 @@ namespace NetworkSocket.ProtocolHandler
             {
                 return GetError(401, SrcPath);
             }
-
-            s_blockPath.Add(req.Target);
 
             Response? res = new Response(req);
             string path = Path.Join(SrcPath, req.Target);
