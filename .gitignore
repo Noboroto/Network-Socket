@@ -396,3 +396,18 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Latext
+**/*.aux
+**/*.fdb_latexmk
+**/*.fls
+**/*.gz
+**/*.pdf
+**/*.log
+**/*.out
+*.zip
+*.xdv
+**/*.pygtex
+**/*.pygstyle
+*.synctex(busy)
+**/*.pgf
