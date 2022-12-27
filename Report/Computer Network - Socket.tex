@@ -3,6 +3,7 @@
 
 \usepackage{hyperref}       % For hypertext inserting
 \usepackage{fancyhdr}       % For header and footer
+\usepackage{float}          % Force figure placement
 
 \usepackage{niceframe}      % For titlepage
 \usepackage{tikz}           % titlepage border
@@ -78,7 +79,11 @@
     tabsize=3
 }
 
-\newcommand{\code}[1]{\lstinline[language=[Sharp]C, basicstyle=\color{orange!40!black}\large\ttfamily,morekeywords={cout,endl,\&,string},
+\newcommand{\code}[1]{\lstinline[language=[Sharp]C, basicstyle=\color{orange!40!black}\large\ttfamily,
+keywordstyle=\color{blue},
+commentstyle=\color{green!50!black},]{#1}}
+
+\newcommand{\shell}[1]{\lstinline[language=bash, basicstyle=\color{orange!40!black}\large\ttfamily,
 keywordstyle=\color{blue},
 commentstyle=\color{green!50!black},]{#1}}
 % For code presentation
@@ -143,10 +148,10 @@ commentstyle=\color{green!50!black},]{#1}}
                  & Giảng viên lý thuyết & Lê Ngọc Sơn       &          \\
                  & Trợ giảng            & Lê Hà Minh        &          \\
                  & Giảng viên thực hành & Nguyễn Thanh Quân &          \\
-                 &                      &                   &          \\
-                 &                      & Phù Thành Nhân    & 21127382 \\
-                 &                      & Võ Thanh Tú       & 21127469 \\
-                 &                      & Nguyễn Quốc Huy   & 21127511
+                 &                &                   &          \\
+                 &                & Phù Thành Nhân    & 21127382 \\
+                 &                & Võ Thanh Tú       & 21127469 \\
+                 &                & Nguyễn Quốc Huy   & 21127511
             \end{tabular}
         \end{table}
         \LARGE{21CLC02}
@@ -160,12 +165,14 @@ commentstyle=\color{green!50!black},]{#1}}
 \addtolength{\topmargin}{-0.70894pt}
 \setlength{\headheight}{12.70894pt}
 
+\setlength{\parindent}{0cm}     % prevent indent
 \lhead{\textbf{FIT-HCMUS}}
 \rhead{\textbf{Mạng máy tính}}
 \rfoot{\textbf{\thepage}}
 
 %rename content table
 \renewcommand*{\contentsname}{Mục lục}
+\renewcommand*{\figurename}{Hình}
 \tableofcontents
 \newpage
 \section{Đánh giá mức độ hoàn thành}
@@ -173,30 +180,30 @@ commentstyle=\color{green!50!black},]{#1}}
     \centering
     \begin{tabular}{| p{0.05\linewidth}| p{0.3\linewidth}| p{0.35\linewidth}| p{0.20\linewidth}|}
         \hline
-        \textbf{STT}                                                          & \textbf{Chức năng}                & \textbf{Ý nghĩa}                                                                                    & \textbf{Mức độ hoàn thành} \\
+        \textbf{STT}                & \textbf{Chức năng}                & \textbf{Ý nghĩa}                & \textbf{Mức độ hoàn thành} \\
         \hline
-        1                                                                     & \textbf{KẾT NỐI}                  & \textbf{0.5 điểm}                                                                                   & 100\%                      \\
-                                                                              &                                   & Cho phép client kết nối đến server thông qua kết nối TCP                                            &                            \\
+        1                & \textbf{KẾT NỐI}                  & \textbf{0.5 điểm}                  & 100\%                \\
+                   &                  & Cho phép client kết nối đến server thông qua kết nối TCP                     &                \\
         \hline
-        2                                                                     & \textbf{QUẢN LÝ KẾT NỐI}          & \textbf{0.5 điểm}                                                                                   & 100\%                      \\
-                                                                              &                                   & Khi client hoặc server mất kết nối đột ngột, không làm chương trình treo hay xảy ra lỗi             &                            \\
+        2                & \textbf{QUẢN LÝ KẾT NỐI}          & \textbf{0.5 điểm}                  & 100\%                \\
+                   &                  & Khi client hoặc server mất kết nối đột ngột, không làm chương trình treo hay xảy ra lỗi             &                \\
         \hline
-        3                                                                     & \textbf{Tải được page index.html} & \textbf{3.5 điểm}                                                                                   & 100\%                      \\
-                                                                              &                                   & Browser có thể render lên đầy đủ nội dung của trang index.html.                                     &                            \\
-                                                                              &                                   &
-        Trang index.html hiển thị 1 HTML form cho phép đăng nhập (yêu cầu 4). &                                                                                                                                                                      \\
+        3                & \textbf{Tải được page index.html} & \textbf{3.5 điểm}                  & 100\%                \\
+                   &                  & Browser có thể render lên đầy đủ nội dung của trang index.html.                    &                \\
+                   &                  &
+        Trang index.html hiển thị 1 HTML form cho phép đăng nhập (yêu cầu 4). &                     \\
         \hline
-        4                                                                     & \textbf{ĐĂNG NHẬP}                & \textbf{2 điểm}                                                                                     & 100\%                      \\
-                                                                              &                                   & \textbf{POST} method, gửi \textbf{"uname"} là \textbf{"admin} và \textbf{"psw"} là \textbf{"123456} &                            \\
+        4                & \textbf{ĐĂNG NHẬP}                & \textbf{2 điểm}                 & 100\%                \\
+                   &                  & \textbf{POST} method, gửi \textbf{"uname"} là \textbf{"admin} và \textbf{"psw"} là \textbf{"123456} &                \\
         \hline
-        5                                                                     & \textbf{LỖI PAGE}                 & \textbf{0.5 điểm}                                                                                   & 100\%                      \\
-                                                                              &                                   & Trả 404 khi load page không đúng                                                                    &                            \\
+        5                & \textbf{LỖI PAGE}                 & \textbf{0.5 điểm}                  & 100\%                \\
+                   &                  & Trả 404 khi load page không đúng                 &                \\
         \hline
-        6                                                                     & \textbf{MULTIPLE CONNECTIONS}     & \textbf{1 điểm}                                                                                     & 100\%                      \\
-                                                                              &                                   & Concurrent, handle nhiều client cùng lúc                                                            &                            \\
+        6                & \textbf{MULTIPLE CONNECTIONS}     & \textbf{1 điểm}                 & 100\%                \\
+                   &                  & Concurrent, handle nhiều client cùng lúc                  &                \\
         \hline
-        7                                                                     & \textbf{REPORT}                   & \textbf{1 điểm}                                                                                     & 100\%                      \\
-                                                                              &                                   & Theo quy định                                                                                       &                            \\
+        7                & \textbf{REPORT}                   & \textbf{1 điểm}                 & 100\%                \\
+                   &                  & Theo quy định                   &                \\
         \hline
     \end{tabular}
 \end{table}
@@ -207,6 +214,7 @@ commentstyle=\color{green!50!black},]{#1}}
     \item Browser tạo kết nối TCP/IP đến WebServer, gửi một HTTP request cho máy chủ thông qua kết nối đó, đọc kết quả trả về (HTTP response) và hiển thị nội dung trang web (page) cho người dùng.
 \end{itemize}
 \subsection{Cấu trúc thông điệp}
+
 Mỗi thông điệp HTTP được chia làm 2 loại chính là Request (chỉ nhận 1 Response phản hồi lại) và Response(chỉ phản hồi cho 1 Request). Chúng gồm 3 thành phần chính:
 \begin{itemize}
     \item Dòng đầu tiên của thông điệp, được gọi là \textbf{Start Line} trong \textit{HTTP Request}, hoặc \textbf{Status Line} trong \textit{HTTP Response}. Dòng này sẽ định nghĩa loại yêu cầu request đến Server và loại phản hồi của response từ server cho request trước đó.
@@ -215,10 +223,90 @@ Mỗi thông điệp HTTP được chia làm 2 loại chính là Request (chỉ 
     \item Phần cuối cùng là phần \textbf{Data}. Phần này là 1 phần không bắt buộc, nó chỉ xuất hiện khi Request hoặc Response có nhu cầu gửi kèm theo dữ liệu đến đích.
 \end{itemize}
 \subsection{Kiểu dữ liệu của thông điệp}
+
 HTTP Message Start Line, Status Line và Headers là những đoạn văn bản được mã hoá bằng bộ mã ASCII, còn phần Data của thông điệp sẽ là dạng byte hoặc dạng văn bản (kiểu mã hoá sẽ được quy định tại header \textit{Content-Type}, mặc định là mã hoá bằng bộ mã ASCII)
 \subsection{Cách tổ chức cơ sở dữ liệu}
+
 Do việc tổ chức cơ sở dữ liệu không phải mục tiêu chính của môn học nên nhóm quyết định sẽ lưu dữ liệu dưới dạng 1 file \textit{.txt} đơn giản được mã hoá bằng ASCII, không có mã hoá bảo mật. 
 \section{Hướng dẫn sử dụng}
+\subsection{Các cách khởi động chương trình}
+
+Chương trình được phát hành đến người dùng dưới dạng file thực thi cho hệ điều hành Windows ($NetworkSocket.exe$) Để khởi động chương trình, người dùng có 2 cách:
+\begin{enumerate}
+    \item Dùng môi trường dòng lệnh, dùng câu lệnh và các option được đề cập ở mục bên dưới.
+    \item Nháy đúp chuột vào file thực thi ($.exe$) của chương trình
+\end{enumerate}
+\begin{figure}[!h]
+    \begin{center}
+        \includegraphics{PicGuide/Start.png}
+        \caption{Mở chương trình bằng Terminal tích hợp trong phần mềm VSCode}
+    \end{center}
+\end{figure}
+\subsection{Các tuỳ chỉnh cho Chương trình dòng lệnh (CLI)}
+
+Với tên chương trình là $NetworkSocket.exe$, trình dòng lệnh mẫu là $Windows PowerShell$\\
+
+Để chạy chương trình, ta dùng lệnh\\
+\begin{center}
+    \shell{./NetworkSocket.exe}
+\end{center}
+Khi dùng dòng lệnh, nếu thêm các flag sau thì người dùng có thể tuỳ chỉnh được chương trình trước khi khởi động:
+\begin{figure}[!h]
+    \begin{center}
+        \includegraphics{PicGuide/Help.png}
+        \caption{Gọi lệnh \shell{./NetworkSocket.exe -h}}
+    \end{center}
+\end{figure}
+\begin{itemize}
+    \item Flag \textbf{-h} giúp hiển thị thông tin các flag
+    \item Flag \textbf{-p} giúp chọn port phần mềm sẽ bắt đầu, mặc định là \textit{8080}
+    \item Flag \textbf{-f} giúp chọn thư mục chứa mã nguồn trang web, mặc định là thư mục \textit{http} của chương trình
+\end{itemize}
+\subsection{Các tuỳ chỉnh còn lại}
+
+Sau khi khởi động, menu sẽ hiển thị lên các lệnh đã được thêm vào giúp người dùng thao tác nhanh.
+Bạn có thể nhấp vào dòng chữ \href{http://127.0.0.1:8080}{http://127.0.0.1:8080} sẽ dẫn tới trang web trên trình duyệt. Đường dẫn này sẽ thay đổi tuỳ theo cài đặt port hiện tại của chương trình.\\
+
+Và những lệnh khác tương ứng với hướng dẫn đi kèm, các lệnh này được thực thi trong suốt chương trình. Nếu bạn muốn dừng server chỉ cần nhập \shell{exit} server sẽ ngừng ở mọi thời điểm.\\
+
+Lưu ý rằng các câu lệnh sẽ không phân biệt hoa thường\\
+
+Khi mở client trên trình duyệt sẽ hiện các nội dung được gửi về như sau\\
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics{PicGuide/Success.png}
+        \caption{Các hoạt động gửi nhận thông điệp}
+    \end{center}
+\end{figure}
+Khi sử dụng lệnh \shell{ls}\\
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics{PicGuide/LS.png}
+        \caption{Số lượng client đã kết nối kể cả các client bị đóng.}
+    \end{center}
+\end{figure}
+Khi nhập lệnh \shell{stop client}, menu sẽ yêu cầu nhập thứ tự client mà bạn muốn đóng\\
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics{PicGuide/Stop Client.png}
+        \caption{Lệnh đóng kết nối đến 1 client}
+    \end{center}
+\end{figure}
+
+Khi nhập lệnh \shell{active}, hệ thống sẽ cho biết có bao nhiêu client đang được kết nối
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics{PicGuide/Active.png}
+        \caption{Kiểm tra các kết nối đang hoạt động}
+    \end{center}
+\end{figure}
+Khi nhập lệnh shell{exit}, hệ thống sẽ dừng kết nối tất cả các client đang kết nối và kết thúc chương trình.
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics{PicGuide/Exit.png}
+        \caption{Kết thúc chương trình}
+    \end{center}
+\end{figure}
 \section{Môi trường lập trình và framework hỗ trợ}
 \begin{itemize}
     \item Hệ điều hành sử dụng chính: Windows 10, Windows 11
